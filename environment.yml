@@ -4,7 +4,6 @@ channels:
 dependencies:
   - python=3.9
   - pytorch
-  - torchaudio
   - torchvision
   - matplotlib
   - netcdf4
