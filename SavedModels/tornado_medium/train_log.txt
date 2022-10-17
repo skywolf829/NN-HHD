@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "D:\GitHub\NN-HHD\Code\train.py", line 14, in <module>
+    from torch.utils.tensorboard import SummaryWriter
+  File "C:\Users\Sky\anaconda3\envs\NNHHD\lib\site-packages\torch\utils\tensorboard\__init__.py", line 4, in <module>
+    LooseVersion = distutils.version.LooseVersion
+AttributeError: module 'distutils' has no attribute 'version'
+Initializing dataset - reading D:\GitHub\NN-HHD\Code\..\Data\tornado.nc
+Traceback (most recent call last):
+  File "D:\GitHub\NN-HHD\Code\train.py", line 189, in <module>
+    dataset = Dataset(opt)
+  File "D:\GitHub\NN-HHD\Code\datasets.py", line 24, in __init__
+    d = nc_to_tensor(folder_to_load).to(opt['data_device'])
+  File "C:\Users\Sky\anaconda3\envs\NNHHD\lib\site-packages\torch\cuda\__init__.py", line 208, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
