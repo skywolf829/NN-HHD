@@ -3,11 +3,8 @@ channels:
   - defaults
 dependencies:
   - python=3.9
-  - pytorch
-  - torchvision
   - matplotlib
   - netcdf4
   - h5py
   - numba
-  - tensorboard
 prefix: /Users/sky/miniconda3/envs/NNHHD
