@@ -20,3 +20,11 @@ We run code using the start_jobs.py script, which will parse a job settings JSON
 Afterward, models are saved in SavedModels. Models can be tested in a similar fashion:
 
 `python Code/start_jobs.py --settings test.json`
+
+## Tensorboard 
+
+We support tensorboard for visualization of loss values during training. To visualize and compare loss values of models, run:
+
+`tensorboard --logdir tensorboard`
+
+in a terminal, and then navigate to https://localhost:6006 to view the graphs.
