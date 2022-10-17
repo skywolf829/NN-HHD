@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 available_devices.append(gpu)
             else:
                 i += 1
-
+        print(available_devices)
         # Check if any gpus are available for commands in queue
         if(len(available_devices) > 0 and len(commands)>0):
             c = commands.pop(0)
