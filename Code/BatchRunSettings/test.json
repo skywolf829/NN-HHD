@@ -1,17 +1,12 @@
 {
     "1": [ "test.py",
         {        
-        "load_from": "tornado_small",
+        "load_from": "tornado",
         "tests": "reconstruction"
     }],
     "2": [ "test.py",
         {        
-        "load_from": "tornado_medium",
-        "tests": "reconstruction"
-    }],
-    "3": [ "test.py",
-        {        
-        "load_from": "tornado_large",
+        "load_from": "cylinder",
         "tests": "reconstruction"
     }]
 }

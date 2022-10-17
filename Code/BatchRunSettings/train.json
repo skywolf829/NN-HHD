@@ -11,7 +11,7 @@
         "nodes_per_layer": 128,
         "iterations": 10000,
         "points_per_iteration": 10000,
-        "save_name": "tornado_small"     
+        "save_name": "tornado"     
     }],
     "2": [ "train.py",
         {        
@@ -24,19 +24,6 @@
         "nodes_per_layer": 128,
         "iterations": 10000,
         "points_per_iteration": 10000,
-        "save_name": "tornado_medium"     
-    }],
-    "3": [ "train.py",
-        {        
-        "model": "fSRN",
-        "data": "tornado.nc",
-        "loss": "l2",
-        "n_dims": 3,
-        "n_outputs": 4,
-        "n_layers": 4,
-        "nodes_per_layer": 128,
-        "iterations": 10000,
-        "points_per_iteration": 100000,
-        "save_name": "tornado_large"     
+        "save_name": "cylinder"     
     }]
 }
