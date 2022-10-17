@@ -1,14 +1,10 @@
 from __future__ import absolute_import, division, print_function
 import argparse
 import os
-from utility_functions import PSNR, tensor_to_cdf, create_path, particle_tracing, make_coord_grid
-from models import load_model, sample_grid, sample_grad_grid
+from utility_functions import PSNR, tensor_to_cdf, create_path
+from models import load_model, sample_grid
 from options import load_options
-import torch.nn.functional as F
 from datasets import Dataset
-import torch
-import time
-import numpy as np
 
 project_folder_path = os.path.dirname(os.path.abspath(__file__))
 project_folder_path = os.path.join(project_folder_path, "..")
@@ -18,29 +14,10 @@ save_folder = os.path.join(project_folder_path, "SavedModels")
 
 def model_reconstruction(model, dataset, opt):
     grid = list(dataset.data.shape[2:])
-    if("dsfm" in opt['training_mode']): 
-        grads_f = sample_grad_grid(model, grid, output_dim=0, 
-                                        max_points=10000)
-        grads_g = sample_grad_grid(model, grid, output_dim=1, 
-                                        max_points=10000)
-        grads_f = grads_f.permute(3, 0, 1, 2).unsqueeze(0)
-        grads_g = grads_g.permute(3, 0, 1, 2).unsqueeze(0)
-        with torch.no_grad():
-            m = sample_grid(model, grid, max_points=10000)[...,2:3]
-            m = m.permute(3, 0, 1, 2).unsqueeze(0)
-        result = torch.cross(grads_f, grads_g, dim=1)
-        result /= (result.norm(dim=1) + 1e-8)
-        result *= m
-        
-    elif("uvw" in opt['training_mode']):
-        with torch.no_grad():
-            result = sample_grid(model, grid, max_points = 10000)
-            result = result[...,0:3]
-            result = result.permute(3, 0, 1, 2).unsqueeze(0)
-            
+    result = sample_grid(model, grid, 100000)
     result = result.to(opt['data_device'])
-
-    p = PSNR(result, data.data)
+    result = result.permute(3, 0, 1, 2).unsqueeze(0)
+    p = PSNR(result, dataset.data)
 
     print(f"PSNR: {p : 0.02f}")
     create_path(os.path.join(output_folder, "Reconstruction"))

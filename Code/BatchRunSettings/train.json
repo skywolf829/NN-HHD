@@ -16,7 +16,7 @@
     "2": [ "train.py",
         {        
         "model": "fSRN",
-        "data": "tornado.nc",
+        "data": "cylinder.nc",
         "loss": "l2",
         "n_dims": 3,
         "n_outputs": 4,
