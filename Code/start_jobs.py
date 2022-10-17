@@ -85,7 +85,7 @@ if __name__ == '__main__':
             
     else:
         available_devices = parse_devices(args['devices'])
-    
+    print(available_devices)
     jobs_training = []
     while(len(commands) + len(jobs_training) > 0):
         # Check if any jobs have finished and a GPU is freed
