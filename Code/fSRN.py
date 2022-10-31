@@ -118,6 +118,52 @@ class fSRN(nn.Module):
         
         self.net = nn.Sequential(*self.net)
     
+    def forward_potentials(self, coords):
+        output = self.net(coords)
+
+        # We make first scalar the scalar potential
+        scalar_potential = output[:,0]
+        # We make the last 3 values the vector potential
+        vector_potential = output[:,1:4]
+        return scalar_potential, vector_potential
+    
+    def forward_vectorfields(self, coords):
+        output = self.net(coords)
+
+        # We make first scalar the scalar potential
+        scalar_potential = output[:,0]
+        # We make the last 3 values the vector potential
+        vector_potential = output[:,1:4]
+
+        # Take the gradient of the scalar potential to 
+        # generate the rotation free component of the HHD
+        rotation_free = torch.autograd.grad(scalar_potential, 
+            coords, grad_outputs=torch.ones_like(scalar_potential),
+            create_graph=True
+        )[0]
+        #print(rotation_free.shape)
+
+        # Take the curl of the vector potential to generate
+        # the divergence free component of the HHD
+        curl_components = []
+        for i in range(vector_potential.shape[1]):
+            divergence_free_i = torch.autograd.grad(vector_potential[:,i], 
+                coords, grad_outputs=torch.ones_like(vector_potential[:,i]),
+                create_graph=True
+            )[0]
+            #print(divergence_free_i.shape)
+            curl_components.append(divergence_free_i)
+        divergence_free = torch.stack(
+            [
+                curl_components[2][:,1] - curl_components[1][:,2],
+                curl_components[0][:,2] - curl_components[2][:,0],
+                curl_components[1][:,0] - curl_components[0][:,1]
+            ],
+            dim=1
+        )
+        
+        return rotation_free, divergence_free
+        
     def forward(self, coords):     
         output = self.net(coords)
 

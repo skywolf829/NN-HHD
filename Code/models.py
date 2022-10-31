@@ -61,11 +61,85 @@ def sample_grid(model, grid, max_points = 100000):
     vals = vals.reshape(coord_grid_shape)
     return vals
 
+def sample_grid_potentials(model, grid, max_points = 100000):
+    coord_grid = make_coord_grid(grid, 
+        model.opt['device'], flatten=False,
+        align_corners=model.opt['align_corners'])
+    
+    final_sp_output_shape = list(coord_grid.shape)
+    final_vp_output_shape = list(coord_grid.shape)
+    final_sp_output_shape[-1] = 1
+    final_vp_output_shape[-1] = 3
+    
+    coord_grid = coord_grid.view(-1, coord_grid.shape[-1])
+    coord_grid = coord_grid.requires_grad_(True)
+    
+    sp_output_shape = list(coord_grid.shape)
+    vp_output_shape = list(coord_grid.shape)
+    sp_output_shape[-1] = 1
+    vp_output_shape[-1] = 3
+    sp_output = torch.empty(sp_output_shape, 
+        dtype=torch.float32, device=model.opt['device'])
+    vp_output = torch.empty(vp_output_shape, 
+        dtype=torch.float32, device=model.opt['device'])
+
+    for start in range(0, coord_grid.shape[0], max_points):
+        #print("%i:%i" % (start, min(start+max_points, coords.shape[0])))
+        sp, vp = model.forward_potentials(
+            coord_grid[start:min(start+max_points, coord_grid.shape[0])]
+            )
+        sp = sp.detach()
+        vp = vp.detach()
+        
+        sp_output[start:min(start+max_points, coord_grid.shape[0])] = \
+            sp.unsqueeze(1)
+        vp_output[start:min(start+max_points, coord_grid.shape[0])] = \
+            vp
+        model.zero_grad()
+
+    sp_output = sp_output.reshape(final_sp_output_shape)
+    vp_output = vp_output.reshape(final_vp_output_shape)
+    return sp_output, vp_output
+
+def sample_grid_vectorfields(model, grid, max_points = 100000):
+    coord_grid = make_coord_grid(grid, 
+        model.opt['device'], flatten=False,
+        align_corners=model.opt['align_corners'])
+    coord_grid_shape = list(coord_grid.shape)
+    coord_grid = coord_grid.view(-1, coord_grid.shape[-1])
+    coord_grid = coord_grid.requires_grad_(True)
+    
+    rotationfree_output_shape = list(coord_grid.shape)
+    divergencefree_output_shape = list(coord_grid.shape)
+    rotationfree_output_shape[-1] = 3
+    divergencefree_output_shape[-1] = 3
+    rotationfree_output = torch.empty(rotationfree_output_shape, 
+        dtype=torch.float32, device=model.opt['device'])
+    divergencefree_output = torch.empty(divergencefree_output_shape, 
+        dtype=torch.float32, device=model.opt['device'])
+    
+    for start in range(0, coord_grid.shape[0], max_points):
+        #print("%i:%i" % (start, min(start+max_points, coords.shape[0])))
+        rotationfree, divergencefree = model.forward_vectorfields(
+            coord_grid[start:min(start+max_points, coord_grid.shape[0])]
+            )
+        rotationfree = rotationfree.detach()
+        divergencefree = divergencefree.detach()
+        rotationfree_output[start:min(start+max_points, coord_grid.shape[0])] = \
+            rotationfree
+        divergencefree_output[start:min(start+max_points, coord_grid.shape[0])] = \
+            divergencefree
+        model.zero_grad()
+
+    rotationfree_output = rotationfree_output.reshape(rotationfree_output_shape)
+    divergencefree_output = divergencefree_output.reshape(divergencefree_output_shape)
+    return rotationfree_output, divergencefree_output
+
 # Forward for the model with built in
 # filtering to only process max_points at a time 
 # maximum
 def forward_maxpoints(model, coords, max_points=100000):
-    print(coords.shape)
+  
     output_shape = list(coords.shape)
     output_shape[-1] = model.opt['n_dims']
     output = torch.empty(output_shape, 
