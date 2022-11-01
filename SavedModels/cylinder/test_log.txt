@@ -5,17 +5,3 @@ Min/mean/max: -0.7017, -0.0002, 0.7017
 Min/mean/max mag: 0.0000, 0.0011, 0.7017
 PSNR:  43.30
 torch.Size([128, 128, 128, 1])
-D:\GitHub\NN-HHD\Code\..\SavedModels\cylinder
-Initializing dataset - reading D:\GitHub\NN-HHD\Code\..\Data\cylinder.nc
-Data size: torch.Size([1, 3, 128, 128, 128])
-Min/mean/max: -0.7017, -0.0002, 0.7017
-Min/mean/max mag: 0.0000, 0.0011, 0.7017
-PSNR:  43.30
-torch.Size([128, 128, 128, 1])
-D:\GitHub\NN-HHD\Code\..\SavedModels\cylinder
-Initializing dataset - reading D:\GitHub\NN-HHD\Code\..\Data\cylinder.nc
-Data size: torch.Size([1, 3, 128, 128, 128])
-Min/mean/max: -0.7017, -0.0002, 0.7017
-Min/mean/max mag: 0.0000, 0.0011, 0.7017
-PSNR:  43.30
-torch.Size([128, 128, 128, 1])

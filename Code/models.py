@@ -105,7 +105,8 @@ def sample_grid_vectorfields(model, grid, max_points = 100000):
     coord_grid = make_coord_grid(grid, 
         model.opt['device'], flatten=False,
         align_corners=model.opt['align_corners'])
-    coord_grid_shape = list(coord_grid.shape)
+    final_shape = list(coord_grid.shape)
+    final_shape[-1] = 3
     coord_grid = coord_grid.view(-1, coord_grid.shape[-1])
     coord_grid = coord_grid.requires_grad_(True)
     
@@ -131,8 +132,8 @@ def sample_grid_vectorfields(model, grid, max_points = 100000):
             divergencefree
         model.zero_grad()
 
-    rotationfree_output = rotationfree_output.reshape(rotationfree_output_shape)
-    divergencefree_output = divergencefree_output.reshape(divergencefree_output_shape)
+    rotationfree_output = rotationfree_output.reshape(final_shape)
+    divergencefree_output = divergencefree_output.reshape(final_shape)
     return rotationfree_output, divergencefree_output
 
 # Forward for the model with built in

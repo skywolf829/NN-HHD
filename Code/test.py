@@ -40,7 +40,8 @@ def model_potentials(model, dataset, opt):
 
 def model_vectorfields(model, dataset, opt):
     grid = list(dataset.data.shape[2:])
-    rotationfree, divergencefree = sample_grid_potentials(model, grid, 100000)
+    rotationfree, divergencefree = sample_grid_vectorfields(model, grid, 100000)
+
     rotationfree = rotationfree.to(opt['data_device'])
     rotationfree = rotationfree.permute(3, 0, 1, 2).unsqueeze(0)
     divergencefree = divergencefree.to(opt['data_device'])
