@@ -138,3 +138,26 @@ class Dataset(torch.utils.data.Dataset):
         x = x.squeeze()
         
         return x, y
+
+def generate_synthetic_field1():
+    # Uses the magnitude of the velocity field from the tornado dataset as a scalar
+    # potential, and the vector field from the ABC dataset as a vector potential
+    # in a HHD. Adds the gradient/curl fields together to generate the
+    # final vector field.
+
+    tornado = nc_to_tensor(os.path.join(data_folder, "tornado.nc"))
+    abc = nc_to_tensor(os.path.join(data_folder, "ABC.nc"))
+
+    tornado_norm = torch.norm(tornado, dim=1, keepdim=True)
+
+    from utility_functions import spatial_gradient, tensor_to_cdf
+    rotation_free_u = spatial_gradient(tornado_norm, 0, 'x')
+    rotation_free_v = spatial_gradient(tornado_norm, 0, 'y')
+    rotation_free_w = spatial_gradient(tornado_norm, 0, 'z')
+
+    rotation_free = torch.cat([rotation_free_u, rotation_free_v, rotation_free_w], dim=1)
+    divergence_free = curl(abc)
+
+    full_vf = rotation_free + divergence_free
+
+    tensor_to_cdf(full_vf, os.path.join(data_folder, "synthetic_vf.nc"))

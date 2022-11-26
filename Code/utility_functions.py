@@ -773,3 +773,5 @@ def visualize_traces(traces):
     ax.set_zlim([-1, 1])
     plt.title("Streamline traces")
     plt.show()
+
+    
