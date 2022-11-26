@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import numpy as np
-sys.path.append(os.path.join(os.getcwd(), "..", "naturalHHD", "pynhhd-v1.1"))
+sys.path.append(os.path.join(os.getcwd(), "naturalHHD", "pynhhd-v1.1"))
 from pynhhd import nHHD
 import argparse 
 from utility_functions import tensor_to_cdf, nc_to_tensor
@@ -51,15 +51,15 @@ if __name__ == '__main__':
     harmonic = nhhd.h
 
     tensor_to_cdf(torch.tensor(scalar_potential).unsqueeze(0).unsqueeze(0),
-        os.path.join(output_folder, args['data'].split(".nc")[0]+"_scalarpotential.nc"))
+        os.path.join(output_folder, args['data'].split(".nc")[0]+"_baseline_scalarpotential.nc"))
     tensor_to_cdf(torch.tensor(vector_potential).permute(3, 0, 1, 2).unsqueeze(0),
-        os.path.join(output_folder, args['data'].split(".nc")[0]+"_vectorpotential.nc"))
+        os.path.join(output_folder, args['data'].split(".nc")[0]+"_baseline_vectorpotential.nc"))
 
     tensor_to_cdf(torch.tensor(rotation_free).permute(3, 0, 1, 2).unsqueeze(0),
-        os.path.join(output_folder, args['data'].split(".nc")[0]+"_rotationfree.nc"))
+        os.path.join(output_folder, args['data'].split(".nc")[0]+"_baseline_rotationfree.nc"))
     tensor_to_cdf(torch.tensor(divergence_free).permute(3, 0, 1, 2).unsqueeze(0),
-        os.path.join(output_folder, args['data'].split(".nc")[0]+"_divergencefree.nc"))
+        os.path.join(output_folder, args['data'].split(".nc")[0]+"_baseline_divergencefree.nc"))
     tensor_to_cdf(torch.tensor(harmonic).permute(3, 0, 1, 2).unsqueeze(0),
-        os.path.join(output_folder, args['data'].split(".nc")[0]+"_harmonic.nc"))
+        os.path.join(output_folder, args['data'].split(".nc")[0]+"_baseline_harmonic.nc"))
 
     
