@@ -151,9 +151,9 @@ def generate_synthetic_field1():
     tornado_norm = torch.norm(tornado, dim=1, keepdim=True)
 
     from utility_functions import spatial_gradient, tensor_to_cdf
-    rotation_free_u = spatial_gradient(tornado_norm, 0, 'x')
-    rotation_free_v = spatial_gradient(tornado_norm, 0, 'y')
-    rotation_free_w = spatial_gradient(tornado_norm, 0, 'z')
+    rotation_free_u = spatial_gradient(tornado_norm, 0, 0)
+    rotation_free_v = spatial_gradient(tornado_norm, 0, 1)
+    rotation_free_w = spatial_gradient(tornado_norm, 0, 2)
 
     rotation_free = torch.cat([rotation_free_u, rotation_free_v, rotation_free_w], dim=1)
     divergence_free = curl(abc)
