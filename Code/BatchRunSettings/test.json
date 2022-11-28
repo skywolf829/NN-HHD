@@ -1,7 +1,7 @@
 {
     "1": [ "test.py",
         {        
-        "load_from": "synthetic_vf",
+        "load_from": "tornado",
         "tests": "reconstruction,potentials,vectorfields"
     }]
 }

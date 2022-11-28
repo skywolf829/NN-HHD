@@ -3,7 +3,7 @@
     "1": [ "train.py",
         {        
         "model": "fSRN",
-        "data": "synthetic_vf.nc",
+        "data": "tornado.nc",
         "loss": "l2",
         "n_dims": 3,
         "n_outputs": 4,
@@ -11,6 +11,6 @@
         "nodes_per_layer": 128,
         "iterations": 10000,
         "points_per_iteration": 10000,
-        "save_name": "synthetic_vf"     
+        "save_name": "tornado"     
     }]
 }
