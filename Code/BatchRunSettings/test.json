@@ -1,7 +1,7 @@
 {
     "1": [ "test.py",
         {        
-        "load_from": "tornado",
+        "load_from": "cylinder",
         "tests": "reconstruction,potentials,vectorfields"
     }]
 }

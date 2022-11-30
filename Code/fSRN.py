@@ -199,7 +199,7 @@ class fSRN(nn.Module):
             dim=1
         )
         
-        model_output = -rotation_free + divergence_free
+        model_output = rotation_free + divergence_free
 
         return model_output
 
